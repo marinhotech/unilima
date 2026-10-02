@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM — UNILIMA</title>
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/crm.css">
+</head>
+<body>
+
+<div class="app-crm">
+
+  <!-- BARRA LATERAL -->
+  <aside class="barra-lateral">
+    <div class="marca-crm">
+      <img src="assets/img/logo.png" alt="UNILIMA">
+      <span>CRM</span>
+    </div>
+    <ul class="menu-crm">
+      <li><button type="button" data-secao="dashboard" class="ativo"><span class="icone-menu">🏠</span> Dashboard</button></li>
+      <li><button type="button" data-secao="pipeline"><span class="icone-menu">🧭</span> Pipeline</button></li>
+      <li><button type="button" data-secao="leads"><span class="icone-menu">👥</span> Leads</button></li>
+      <li><button type="button" data-secao="agenda"><span class="icone-menu">🗓</span> Agenda e Tarefas</button></li>
+      <li><button type="button" data-secao="config"><span class="icone-menu">⚙</span> Configurações</button></li>
+    </ul>
+    <div class="rodape-lateral">
+      <a href="index.html" style="display:block;color:rgba(255,255,255,.75);font-size:.82rem;margin-bottom:10px;">← Ver site institucional</a>
+      <button type="button" id="botao-sair">Sair</button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="conteudo-crm">
+
+    <!-- ===== DASHBOARD ===== -->
+    <section class="secao-crm ativa" id="secao-dashboard">
+      <div class="topo-crm">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="subtitulo">Visão rápida dos leads e das tarefas da UNILIMA.</p>
+        </div>
+      </div>
+
+      <div class="grade-estat">
+        <div class="cartao-estat destaque"><span>Total de leads</span><strong id="estat-total">0</strong></div>
+        <div class="cartao-estat"><span>Novos</span><strong id="estat-novos">0</strong></div>
+        <div class="cartao-estat"><span>Em atendimento</span><strong id="estat-atendimento">0</strong></div>
+        <div class="cartao-estat"><span>Em negociação</span><strong id="estat-negociacao">0</strong></div>
+        <div class="cartao-estat"><span>Convertidos</span><strong id="estat-convertidos">0</strong></div>
+        <div class="cartao-estat"><span>Retornos de hoje</span><strong id="estat-retornos-hoje">0</strong></div>
+        <div class="cartao-estat"><span>Tarefas de hoje</span><strong id="estat-tarefas-hoje">0</strong></div>
+        <div class="cartao-estat"><span>Atrasados</span><strong id="estat-atrasados">0</strong></div>
+      </div>
+
+      <div class="duas-colunas">
+        <div class="painel">
+          <h2>Próximos retornos</h2>
+          <ul class="painel-lista" id="lista-proximos-retornos"></ul>
+        </div>
+        <div class="painel">
+          <h2>Leads recentes</h2>
+          <ul class="painel-lista" id="lista-recentes"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PIPELINE ===== -->
+    <section class="secao-crm" id="secao-pipeline">
+      <div class="topo-crm">
+        <div>
+          <h1>Pipeline</h1>
+          <p class="subtitulo">Arraste os cards entre as colunas ou use o seletor de etapa em cada card.</p>
+        </div>
+        <button type="button" class="btn btn-primario" id="botao-novo-lead-pipeline">+ Novo lead</button>
+      </div>
+      <div class="quadro-pipeline" id="quadro-pipeline"></div>
+    </section>
+
+    <!-- ===== LEADS ===== -->
+    <section class="secao-crm" id="secao-leads">
+      <div class="topo-crm">
+        <div>
+          <h1>Leads</h1>
+          <p class="subtitulo"><span id="contador-leads">0</span> lead(s) encontrado(s)</p>
+        </div>
+        <button type="button" class="btn btn-primario" id="botao-novo-lead">+ Novo lead</button>
+      </div>
+
+      <div class="barra-ferramentas">
+        <div class="grupo-filtros">
+          <input type="text" id="busca-leads" placeholder="Buscar por nome, WhatsApp ou e-mail">
+          <select id="filtro-etapa"></select>
+        </div>
+      </div>
+
+      <div class="tabela-wrap">
+        <table class="tabela-leads">
+          <thead>
+            <tr>
+              <th>Nome</th><th>WhatsApp</th><th>Categoria</th>
+              <th>Etapa</th><th>Próx. retorno</th><th>Cadastrado em</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-leads"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== AGENDA E TAREFAS ===== -->
+    <section class="secao-crm" id="secao-agenda">
+      <div class="topo-crm">
+        <div>
+          <h1>Agenda e Tarefas</h1>
+          <p class="subtitulo">Tarefas e retornos de leads reunidos em um só lugar.</p>
+        </div>
+        <button type="button" class="btn btn-primario" id="botao-nova-tarefa">+ Nova tarefa</button>
+      </div>
+      <div class="abas-filtro">
+        <button type="button" data-aba="todos" class="ativa">Todos</button>
+        <button type="button" data-aba="hoje">Hoje</button>
+        <button type="button" data-aba="proximos">Próximos</button>
+        <button type="button" data-aba="atrasados">Atrasados</button>
+        <button type="button" data-aba="concluidos">Concluídos</button>
+      </div>
+      <div class="grade-tarefas" id="lista-agenda"></div>
+    </section>
+
+    <!-- ===== CONFIGURAÇÕES ===== -->
+    <section class="secao-crm" id="secao-config">
+      <div class="topo-crm">
+        <div>
+          <h1>Configurações</h1>
+          <p class="subtitulo">Ajustes locais do CRM neste navegador.</p>
+        </div>
+      </div>
+
+      <div class="subabas-config">
+        <button type="button" data-subaba="categorias" class="ativa">Cursos e serviços</button>
+        <button type="button" data-subaba="consultora">Dados da consultora</button>
+        <button type="button" data-subaba="senha">Senha de acesso</button>
+        <button type="button" data-subaba="backup">Backup e segurança</button>
+      </div>
+
+      <!-- Cursos e serviços -->
+      <div class="subsecao-config ativa" id="subsecao-categorias">
+        <div class="aviso-config">
+          Esta configuração é local deste CRM. Categorias inativas somem apenas das opções para <strong>novos</strong> cadastros de lead — leads antigos continuam com seus dados normalmente. Ela <strong>não altera</strong> o site público; o site público é editado em <code>assets/js/config.js</code>.
+        </div>
+        <div class="lista-categorias" id="lista-categorias"></div>
+      </div>
+
+      <!-- Dados da consultora -->
+      <div class="subsecao-config" id="subsecao-consultora">
+        <div class="aviso-config">Estes dados são internos do CRM (para referência própria) e não alteram o site público automaticamente.</div>
+        <form id="form-consultora" class="form-crm" style="max-width:440px;">
+          <div class="campo"><label>Nome da consultora</label><input type="text" name="nome"></div>
+          <div class="campo"><label>Observações internas</label><textarea name="observacoes" rows="3"></textarea></div>
+          <button type="submit" class="btn btn-primario">Salvar</button>
+        </form>
+      </div>
+
+      <!-- Senha -->
+      <div class="subsecao-config" id="subsecao-senha">
+        <div class="cartao-backup" style="max-width:440px;">
+          <h3>Alterar senha</h3>
+          <form id="form-alterar-senha" class="form-crm">
+            <div class="campo"><label for="senha-atual">Senha atual</label><input type="password" id="senha-atual" required></div>
+            <div class="campo"><label for="senha-nova">Nova senha</label><input type="password" id="senha-nova" minlength="6" required></div>
+            <div class="campo"><label for="senha-nova-confirmar">Confirmar nova senha</label><input type="password" id="senha-nova-confirmar" minlength="6" required></div>
+            <p class="mensagem-erro" id="erro-alterar-senha" hidden></p>
+            <button type="submit" class="btn btn-primario">Salvar nova senha</button>
+          </form>
+          <p style="font-size:.82rem;color:var(--tinta-suave);margin-top:16px;">A senha é uma proteção local deste navegador (hash via Web Crypto API), não um sistema de autenticação de servidor.</p>
+        </div>
+      </div>
+
+      <!-- Backup -->
+      <div class="subsecao-config" id="subsecao-backup">
+        <div class="aviso-backup">
+          ⚠️ Os dados deste CRM ficam armazenados somente neste navegador. Faça backups regularmente para evitar perdas.
+        </div>
+        <div class="aviso-config" id="aviso-backup-antigo" hidden>
+          Já faz um tempo desde o último backup. Considere exportar um novo backup hoje.
+        </div>
+
+        <div class="grade-backup">
+          <div class="cartao-backup">
+            <h3>Exportar backup completo (JSON)</h3>
+            <p>Gera um arquivo com leads, tarefas e configurações do CRM. Guarde este arquivo em um local seguro.</p>
+            <button type="button" class="btn btn-primario" id="botao-exportar-json">Exportar backup (.json)</button>
+            <p class="info-ultimo-backup" id="info-ultimo-backup">Último backup: nenhum backup realizado</p>
+          </div>
+
+          <div class="cartao-backup">
+            <h3>Exportar lista de leads (CSV)</h3>
+            <p>Gera uma planilha simples com os leads cadastrados, compatível com Excel e Google Planilhas.</p>
+            <button type="button" class="btn btn-secundario" id="botao-exportar-csv">Exportar leads (.csv)</button>
+          </div>
+
+          <div class="cartao-backup">
+            <h3>Importar backup (JSON)</h3>
+            <p>Restaura leads, tarefas e configurações a partir de um backup anterior. Uma cópia de segurança automática dos dados atuais é criada antes de substituir qualquer coisa.</p>
+            <input type="file" accept="application/json" class="input-arquivo" id="input-importar-backup">
+            <br><br>
+            <button type="button" class="btn btn-secundario" id="botao-importar-backup">Importar backup</button>
+          </div>
+
+          <div class="cartao-backup">
+            <h3>Cópia de segurança automática</h3>
+            <p>Sempre que você importa um backup, o CRM salva automaticamente uma cópia dos dados anteriores neste navegador, caso precise desfazer.</p>
+            <button type="button" class="btn btn-fantasma" id="botao-restaurar-snapshot" hidden>Restaurar cópia de segurança automática</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== MODAL: NOVO LEAD (cadastro rápido) ===== -->
+<div class="modal-fundo" id="modal-novo-lead" hidden>
+  <div class="modal-caixa largo">
+    <h2>Novo lead</h2>
+    <form id="form-novo-lead" class="form-crm">
+      <div class="campo-dupla">
+        <div class="campo"><label>Nome completo *</label><input type="text" name="nome" required></div>
+        <div class="campo"><label>WhatsApp *</label><input type="tel" name="whatsapp" placeholder="(00) 00000-0000" required></div>
+      </div>
+      <div class="campo-dupla">
+        <div class="campo"><label>E-mail (opcional)</label><input type="email" name="email"></div>
+        <div class="campo"><label>Origem</label><select name="origem" id="campo-novo-origem"></select></div>
+      </div>
+      <div class="campo-dupla">
+        <div class="campo"><label>Cidade (opcional)</label><input type="text" name="cidade"></div>
+        <div class="campo"><label>UF (opcional)</label><input type="text" name="estado" maxlength="2"></div>
+      </div>
+      <div class="campo-dupla">
+        <div class="campo"><label>Categoria de interesse</label><select name="categoria"></select></div>
+        <div class="campo"><label>Curso de interesse (opcional)</label><input type="text" name="curso"></div>
+      </div>
+      <div class="campo">
+        <label>Próximo retorno (opcional)</label>
+        <input type="datetime-local" name="proximoRetorno">
+      </div>
+      <div class="campo">
+        <label>Observação inicial (opcional)</label>
+        <textarea name="observacao" rows="2"></textarea>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-fantasma" data-fechar-modal="modal-novo-lead">Cancelar</button>
+        <button type="submit" class="btn btn-primario">Cadastrar lead</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== MODAL: FICHA DO LEAD ===== -->
+<div class="modal-fundo" id="modal-ficha-lead" hidden>
+  <div class="modal-caixa largo">
+    <div class="ficha-cabecalho">
+      <div>
+        <h2 id="ficha-nome">Nome do lead</h2>
+        <span style="font-size:.8rem;color:var(--tinta-suave);" id="ficha-criado-em"></span>
+      </div>
+      <div class="ficha-etapa-wrap">
+        <label style="font-size:.8rem;color:var(--tinta-suave);">Etapa:</label>
+        <select id="ficha-etapa"></select>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-whatsapp ficha-whatsapp-botao" id="ficha-botao-whatsapp">Abrir WhatsApp</button>
+
+    <div class="caixa-conversao" id="ficha-caixa-conversao" hidden></div>
+    <div class="caixa-perda" id="ficha-caixa-perda" hidden></div>
+
+    <form id="form-ficha" class="form-crm" style="margin-top:20px;">
+      <div class="ficha-secao">
+        <h3>Dados do contato</h3>
+        <div class="ficha-grid-dupla">
+          <div class="campo"><label>WhatsApp</label><input type="tel" name="whatsapp"></div>
+          <div class="campo"><label>E-mail</label><input type="email" name="email"></div>
+        </div>
+        <div class="ficha-grid-dupla">
+          <div class="campo"><label>Cidade</label><input type="text" name="cidade"></div>
+          <div class="campo"><label>UF</label><input type="text" name="estado" maxlength="2"></div>
+        </div>
+      </div>
+
+      <div class="ficha-secao">
+        <h3>Interesse</h3>
+        <div class="ficha-grid-dupla">
+          <div class="campo"><label>Categoria</label><select name="categoria"></select></div>
+          <div class="campo"><label>Curso de interesse</label><input type="text" name="curso"></div>
+        </div>
+      </div>
+
+      <div class="ficha-secao">
+        <h3>Próximo retorno</h3>
+        <div class="campo"><input type="datetime-local" name="proximoRetorno"></div>
+      </div>
+
+      <div class="modal-acoes" style="justify-content:flex-start;">
+        <button type="submit" class="btn btn-primario">Salvar alterações</button>
+      </div>
+    </form>
+
+    <div class="ficha-secao">
+      <h3>Observações</h3>
+      <div class="linha-add-observacao">
+        <input type="text" id="ficha-nova-observacao" placeholder="Adicionar nova observação...">
+        <button type="button" class="btn btn-secundario" id="ficha-botao-add-observacao">Adicionar</button>
+      </div>
+    </div>
+
+    <div class="ficha-secao">
+      <h3>Tarefas relacionadas</h3>
+      <ul class="lista-tarefas-ficha" id="ficha-tarefas"></ul>
+      <button type="button" class="btn btn-fantasma" id="ficha-botao-nova-tarefa" style="margin-top:10px;">+ Nova tarefa para este lead</button>
+    </div>
+
+    <div class="ficha-secao">
+      <h3>Histórico</h3>
+      <ul class="timeline" id="ficha-timeline"></ul>
+    </div>
+
+    <div class="modal-acoes">
+      <button type="button" class="btn btn-fantasma" data-fechar-modal="modal-ficha-lead">Fechar</button>
+      <button type="button" class="btn" style="background:var(--vermelho);color:#fff;" id="ficha-botao-excluir">Excluir lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: CONVERSÃO (detalhes da matrícula) ===== -->
+<div class="modal-fundo" id="modal-conversao" hidden>
+  <div class="modal-caixa">
+    <h2>Detalhes da matrícula</h2>
+    <p style="font-size:.85rem;color:var(--tinta-suave);">Opcional. Preencha quando tiver essas informações disponíveis.</p>
+    <form id="form-conversao" class="form-crm">
+      <div class="campo"><label>Curso matriculado</label><input type="text" name="curso"></div>
+      <div class="campo"><label>Categoria</label><input type="text" name="categoria"></div>
+      <div class="campo"><label>Instituição parceira</label><select name="instituicao"></select></div>
+      <div class="campo"><label>Data da matrícula</label><input type="date" name="dataMatricula"></div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-fantasma" data-fechar-modal="modal-conversao">Agora não</button>
+        <button type="submit" class="btn btn-primario">Salvar detalhes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== MODAL: PERDA (motivo opcional) ===== -->
+<div class="modal-fundo" id="modal-perda" hidden>
+  <div class="modal-caixa">
+    <h2>Lead marcado como perdido</h2>
+    <p style="font-size:.85rem;color:var(--tinta-suave);">Informar o motivo é opcional, mas ajuda a entender o funil.</p>
+    <form id="form-perda" class="form-crm">
+      <div class="campo"><label>Motivo</label><select name="motivo"></select></div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-fantasma" data-fechar-modal="modal-perda">Agora não</button>
+        <button type="submit" class="btn btn-primario">Salvar motivo</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== MODAL: TAREFA ===== -->
+<div class="modal-fundo" id="modal-tarefa" hidden>
+  <div class="modal-caixa largo">
+    <h2 id="titulo-modal-tarefa">Nova tarefa</h2>
+    <form id="form-tarefa" class="form-crm">
+      <div class="campo"><label>Título</label><input type="text" name="titulo" required></div>
+      <div class="campo-dupla">
+        <div class="campo"><label>Lead relacionado (opcional)</label><select name="leadId" id="campo-tarefa-lead"></select></div>
+        <div class="campo"><label>Prioridade</label><select name="prioridade" id="campo-tarefa-prioridade"></select></div>
+      </div>
+      <div class="campo-dupla">
+        <div class="campo"><label>Data</label><input type="date" name="data" required></div>
+        <div class="campo"><label>Horário</label><input type="time" name="horario"></div>
+      </div>
+      <div class="campo"><label>Observação</label><textarea name="observacao" rows="2"></textarea></div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-fantasma" data-fechar-modal="modal-tarefa">Cancelar</button>
+        <button type="submit" class="btn btn-primario">Salvar tarefa</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== MODAL: CONFIRMAÇÃO GENÉRICA ===== -->
+<div class="modal-fundo" id="modal-confirmar" hidden>
+  <div class="modal-caixa">
+    <h2 id="titulo-confirmar">Confirmar ação</h2>
+    <p id="mensagem-confirmar"></p>
+    <div class="modal-acoes">
+      <button type="button" class="btn btn-fantasma" data-fechar-modal="modal-confirmar">Cancelar</button>
+      <button type="button" class="btn" style="background:var(--vermelho);color:#fff;" id="botao-confirmar-acao">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/crm.js"></script>
+<script src="assets/js/backup.js"></script>
+<script>
+  document.getElementById("form-alterar-senha").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const atual = document.getElementById("senha-atual").value;
+    const nova = document.getElementById("senha-nova").value;
+    const confirmar = document.getElementById("senha-nova-confirmar").value;
+    const erro = document.getElementById("erro-alterar-senha");
+
+    if (nova.length < 6) { erro.textContent = "A nova senha precisa ter pelo menos 6 caracteres."; erro.hidden = false; return; }
+    if (nova !== confirmar) { erro.textContent = "As senhas não coincidem."; erro.hidden = false; return; }
+
+    const ok = await UnilimaAuth.alterarSenha(atual, nova);
+    if (!ok) { erro.textContent = "Senha atual incorreta."; erro.hidden = false; return; }
+
+    erro.hidden = true;
+    document.getElementById("form-alterar-senha").reset();
+    if (window.UnilimaUI) window.UnilimaUI.mostrarToast("Senha alterada com sucesso.");
+  });
+</script>
+</body>
+</html>
