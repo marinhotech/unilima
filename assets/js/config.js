@@ -32,7 +32,7 @@ window.UNILIMA_CONFIG = {
   // ----------------------------------------------------------
   contato: {
     // Apenas números, com DDI e DDD. Exemplo: "5531999999999"
-    whatsapp: "PREENCHER_NUMERO_WHATSAPP",
+    whatsapp: "34 9158-0411",
 
     // Número formatado para exibição. Exemplo: "(31) 99999-9999"
     telefoneExibicao: "PREENCHER_TELEFONE",
