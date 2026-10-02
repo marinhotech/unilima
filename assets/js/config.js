@@ -118,16 +118,6 @@ window.UNILIMA_CONFIG = {
       nome: "Técnico por Competência",
       descricao: "Formação técnica com aproveitamento da experiência profissional já adquirida.",
     },
-    {
-      id: "tecnico-regular",
-      nome: "Técnico Regular",
-      descricao: "Formação técnica nos moldes regulares, oferecida por instituições parceiras.",
-    },
-    {
-      id: "eja",
-      nome: "EJA",
-      descricao: "Educação de Jovens e Adultos, para quem deseja retomar ou concluir os estudos.",
-    },
   ],
 
   // ----------------------------------------------------------
