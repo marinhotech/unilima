@@ -95,30 +95,76 @@
 
 <div class="modal-fundo" id="modal-redefinir" hidden>
   <div class="modal-caixa">
-    <h2>Esqueceu sua senha?</h2>
 
-    <p>
-      Por segurança, a senha de acesso ao CRM não pode ser redefinida diretamente por esta página.
-    </p>
+    <div id="etapa-chave">
+      <h2>Recuperar acesso ao CRM</h2>
 
-    <p>
-      Entre em contato com o suporte para solicitar a recuperação do acesso.
-    </p>
+      <p>
+        Digite a chave de recuperação criada no primeiro acesso para confirmar sua identidade.
+      </p>
 
-    <div class="modal-acoes">
-      <button type="button" class="btn btn-fantasma" id="cancelar-redefinir">
-        Voltar
-      </button>
+      <div class="campo">
+        <label for="chave-recuperar">Chave de recuperação</label>
+        <input
+          type="password"
+          id="chave-recuperar"
+          placeholder="Digite sua chave de recuperação"
+        >
+      </div>
 
-      <a
-        href="https://wa.me/553491580411?text=Olá!%20Preciso%20de%20ajuda%20para%20recuperar%20o%20acesso%20ao%20CRM%20da%20UNILIMA."
-        class="btn"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Solicitar recuperação
-      </a>
+      <p class="mensagem-erro" id="erro-chave" hidden></p>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-fantasma" id="cancelar-redefinir">
+          Voltar
+        </button>
+
+        <button type="button" class="btn btn-primario" id="validar-chave">
+          Continuar
+        </button>
+      </div>
     </div>
+
+    <div id="etapa-nova-senha" hidden>
+      <h2>Criar nova senha</h2>
+
+      <p>
+        Chave confirmada. Agora crie uma nova senha para acessar o CRM.
+      </p>
+
+      <div class="campo">
+        <label for="senha-recuperada">Nova senha</label>
+        <input
+          type="password"
+          id="senha-recuperada"
+          minlength="6"
+          placeholder="Mínimo de 6 caracteres"
+        >
+      </div>
+
+      <div class="campo">
+        <label for="confirmar-senha-recuperada">Confirmar nova senha</label>
+        <input
+          type="password"
+          id="confirmar-senha-recuperada"
+          minlength="6"
+          placeholder="Repita a nova senha"
+        >
+      </div>
+
+      <p class="mensagem-erro" id="erro-nova-senha" hidden></p>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-fantasma" id="voltar-recuperacao">
+          Voltar
+        </button>
+
+        <button type="button" class="btn btn-primario" id="salvar-nova-senha">
+          Salvar nova senha
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>
 
