@@ -19,22 +19,58 @@
     <img src="assets/img/logo.png" alt="UNILIMA">
   </a>
 
-  <div id="bloco-criar-senha" hidden>
-    <h1>Criar senha de acesso</h1>
-    <p class="texto-login">Este é o primeiro acesso ao CRM neste navegador. Crie uma senha para proteger a área de leads.</p>
-    <form id="form-criar-senha">
-      <div class="campo">
-        <label for="nova-senha">Nova senha</label>
-        <input type="password" id="nova-senha" minlength="6" required placeholder="Mínimo de 6 caracteres">
-      </div>
-      <div class="campo">
-        <label for="confirmar-senha">Confirmar senha</label>
-        <input type="password" id="confirmar-senha" minlength="6" required placeholder="Repita a senha">
-      </div>
-      <p class="mensagem-erro" id="erro-criar" hidden></p>
-      <button type="submit" class="btn btn-primario btn-bloco">Criar senha e entrar</button>
-    </form>
-  </div>
+<div id="bloco-criar-senha" hidden>
+  <h1>Criar senha de acesso</h1>
+
+  <p class="texto-login">
+    Este é o primeiro acesso ao CRM neste navegador. Crie uma senha para proteger a área de leads.
+  </p>
+
+  <form id="form-criar-senha">
+    <div class="campo">
+      <label for="nova-senha">Nova senha</label>
+      <input
+        type="password"
+        id="nova-senha"
+        minlength="6"
+        required
+        placeholder="Mínimo de 6 caracteres"
+      >
+    </div>
+
+    <div class="campo">
+      <label for="confirmar-senha">Confirmar senha</label>
+      <input
+        type="password"
+        id="confirmar-senha"
+        minlength="6"
+        required
+        placeholder="Repita a senha"
+      >
+    </div>
+
+    <div class="campo">
+      <label for="chave-recuperacao">Chave de recuperação</label>
+      <input
+        type="password"
+        id="chave-recuperacao"
+        minlength="6"
+        required
+        placeholder="Crie uma chave de recuperação"
+      >
+    </div>
+
+    <p class="texto-login" style="font-size: 12px;">
+      Guarde sua chave de recuperação em um local seguro. Ela será utilizada para confirmar sua identidade caso você esqueça a senha de acesso ao CRM.
+    </p>
+
+    <p class="mensagem-erro" id="erro-criar" hidden></p>
+
+    <button type="submit" class="btn btn-primario btn-bloco">
+      Criar senha e entrar
+    </button>
+  </form>
+</div>
 
   <div id="bloco-entrar" hidden>
     <h1>Acessar CRM</h1>
