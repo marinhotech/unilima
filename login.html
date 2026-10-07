@@ -234,13 +234,74 @@
     window.location.href = "crm.html";
   });
 
-  const modal = document.getElementById("modal-redefinir");
+const modal = document.getElementById("modal-redefinir");
+const etapaChave = document.getElementById("etapa-chave");
+const etapaNovaSenha = document.getElementById("etapa-nova-senha");
+
 document.getElementById("botao-esqueci").addEventListener("click", () => {
+  etapaChave.hidden = false;
+  etapaNovaSenha.hidden = true;
+
+  document.getElementById("chave-recuperar").value = "";
+  document.getElementById("erro-chave").hidden = true;
+
   modal.hidden = false;
 });
 
 document.getElementById("cancelar-redefinir").addEventListener("click", () => {
   modal.hidden = true;
+});
+
+document.getElementById("validar-chave").addEventListener("click", () => {
+  const chaveDigitada = document.getElementById("chave-recuperar").value;
+  const chaveSalva = localStorage.getItem("unilima_crm_chave_recuperacao");
+  const erro = document.getElementById("erro-chave");
+
+  if (!chaveSalva) {
+    erro.textContent = "Nenhuma chave de recuperação foi cadastrada neste navegador.";
+    erro.hidden = false;
+    return;
+  }
+
+  if (chaveDigitada !== chaveSalva) {
+    erro.textContent = "Chave de recuperação incorreta.";
+    erro.hidden = false;
+    return;
+  }
+
+  erro.hidden = true;
+  etapaChave.hidden = true;
+  etapaNovaSenha.hidden = false;
+});
+
+document.getElementById("voltar-recuperacao").addEventListener("click", () => {
+  etapaNovaSenha.hidden = true;
+  etapaChave.hidden = false;
+});
+
+document.getElementById("salvar-nova-senha").addEventListener("click", async () => {
+  const novaSenha = document.getElementById("senha-recuperada").value;
+  const confirmarSenha = document.getElementById("confirmar-senha-recuperada").value;
+  const erro = document.getElementById("erro-nova-senha");
+
+  if (novaSenha.length < 6) {
+    erro.textContent = "A nova senha precisa ter pelo menos 6 caracteres.";
+    erro.hidden = false;
+    return;
+  }
+
+  if (novaSenha !== confirmarSenha) {
+    erro.textContent = "As senhas não coincidem.";
+    erro.hidden = false;
+    return;
+  }
+
+  erro.hidden = true;
+
+  await UnilimaAuth.cadastrarSenha(novaSenha);
+
+  UnilimaAuth.abrirSessao();
+  window.location.href = "crm.html";
 });
 })();
 </script>
