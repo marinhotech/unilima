@@ -140,13 +140,13 @@
   });
 
   const modal = document.getElementById("modal-redefinir");
-  document.getElementById("botao-esqueci").addEventListener("click", () => (modal.hidden = false));
-  document.getElementById("cancelar-redefinir").addEventListener("click", () => (modal.hidden = true));
-  document.getElementById("confirmar-redefinir").addEventListener("click", () => {
-    UnilimaAuth.limparCadastroSenha();
-    modal.hidden = true;
-    atualizarTela();
-  });
+document.getElementById("botao-esqueci").addEventListener("click", () => {
+  modal.hidden = false;
+});
+
+document.getElementById("cancelar-redefinir").addEventListener("click", () => {
+  modal.hidden = true;
+});
 })();
 </script>
 </body>
