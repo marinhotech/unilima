@@ -139,26 +139,39 @@
   atualizarTela();
 
   document.getElementById("form-criar-senha").addEventListener("submit", async (ev) => {
-    ev.preventDefault();
-    const nova = document.getElementById("nova-senha").value;
-    const confirma = document.getElementById("confirmar-senha").value;
-    const erro = document.getElementById("erro-criar");
+  ev.preventDefault();
 
-    if (nova.length < 6) {
-      erro.textContent = "A senha precisa ter pelo menos 6 caracteres.";
-      erro.hidden = false;
-      return;
-    }
-    if (nova !== confirma) {
-      erro.textContent = "As senhas não coincidem.";
-      erro.hidden = false;
-      return;
-    }
-    erro.hidden = true;
-    await UnilimaAuth.cadastrarSenha(nova);
-    UnilimaAuth.abrirSessao();
-    window.location.href = "crm.html";
-  });
+  const nova = document.getElementById("nova-senha").value;
+  const confirma = document.getElementById("confirmar-senha").value;
+  const chave = document.getElementById("chave-recuperacao").value;
+  const erro = document.getElementById("erro-criar");
+
+  if (nova.length < 6) {
+    erro.textContent = "A senha precisa ter pelo menos 6 caracteres.";
+    erro.hidden = false;
+    return;
+  }
+
+  if (nova !== confirma) {
+    erro.textContent = "As senhas não coincidem.";
+    erro.hidden = false;
+    return;
+  }
+
+  if (chave.length < 6) {
+    erro.textContent = "A chave de recuperação precisa ter pelo menos 6 caracteres.";
+    erro.hidden = false;
+    return;
+  }
+
+  erro.hidden = true;
+
+  await UnilimaAuth.cadastrarSenha(nova);
+  localStorage.setItem("unilima_crm_chave_recuperacao", chave);
+
+  UnilimaAuth.abrirSessao();
+  window.location.href = "crm.html";
+});
 
   document.getElementById("form-entrar").addEventListener("submit", async (ev) => {
     ev.preventDefault();
